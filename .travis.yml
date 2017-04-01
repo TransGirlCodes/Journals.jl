@@ -1,0 +1,25 @@
+language: julia
+os:
+    - linux
+    - osx
+branches:
+    only:
+        - master
+        - develop
+matrix:
+    include:
+        - julia:
+            - nightly
+    allow_failiures:
+        - julia:
+            - nightly
+    fast_finish: true
+notifications:
+    email: false
+script:
+    - julia -e 'Pkg.clone(pwd())'
+    - julia -e 'Pkg.build("Journals")'
+    - julia --check-bounds=yes -e 'Pkg.test("Journals", coverage=true)'
+after_success:
+    - julia -e 'cd(Pkg.dir("Journals")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
+    - julia -e 'cd(Pkg.dir("Journals")); Pkg.add("Documenter"); include(joinpath("docs", "make.jl"))'
