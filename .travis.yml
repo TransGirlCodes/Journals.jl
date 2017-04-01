@@ -2,17 +2,18 @@ language: julia
 os:
     - linux
     - osx
-julia:
-  - 0.5
-  - nightly
+branches:
+    only:
+        - master
+        - develop
 matrix:
     include:
         - julia:
-            - 0.5
             - nightly
     allow_failiures:
         - julia:
             - nightly
+    fast_finish: true
 notifications:
     email: false
 script:
