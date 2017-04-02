@@ -15,7 +15,7 @@ const SRC_INSERTION = 0b0010
 A JournalEntry is a struct of values which are used to represent some sub-range
 of either the reference or the insertion buffer in a Journal.
 """
-@compat struct JournalEntry
+immutable JournalEntry
     "A flag for where the segment maps (reference or insertion buffer)."
     source::SRC
 
@@ -59,7 +59,7 @@ Base.isless(entrya::JE, entryb::JE) = ltvirtual(entrya, entryb)
 
 Base.length(entry::JE) = entry.len
 
-Base.isnull(entry::JE) = source(entry) == SRC_NULL 
+Base.isnull(entry::JE) = source(entry) == SRC_NULL
 
 function Base.show(io::IO, ::MIME"text/plain", entry::JE)
     println(io, "Source of Segment: $(source(entry))")
